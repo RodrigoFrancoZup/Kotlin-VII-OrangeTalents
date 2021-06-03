@@ -3,7 +3,7 @@ package br.com.alura.bytebank.teste
 fun main() {
 
     //Para entender melhor, talvez seja legal você ler primeiro os coments da classe variaveisDeFuncao
-    //A grande diferença é que utilizando lambda ou função anonima a função
+    //A grande diferença é que utilizando lambda ou função anonima a função a ser executada fica vinculada somente a uma "variável", nao poderemos atribuí-la em outra "variavel"
     //Lembrando, que estamos deixando EXPLICITO O TIPO FUNÇÃO ' () -> Unit' apenas para entendimento, podemos omitir esse trecho!
 
     //Vamos criar agora uma "variável de função" através do Lambda!
@@ -26,7 +26,7 @@ fun main() {
         println("Executando variável de função, com FUNÇÃO ANONIMA")
     }
 
-    //Executando a função lambda
+    //Executando a função anonima
     minhaFuncaoAnonima()
 
 }
