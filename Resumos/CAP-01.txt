@@ -1,0 +1,74 @@
+Capítulo 01 - Utilizando o tipo função
+Nesse capítulo aprendemos:
+
+⦁	Podemos usar o paradigma Funcional com o Kotlin e vamos falar um pouco sobre isso nesse curso. Resumidamente o paradigma funcional se baseia nas funções matemáticas, pois a ideia desse paradigma é a imutabilidade (numa função matemática, quando passamos o mesmo valor de parâmetro temos sempre o mesmo resultado), portanto ao programar nesse paradigma vamos executar funções baseadas nos parâmetros e o resultado não pode sofrer alterações (quando passamos o mesmo valor de parâmetros). Na Orientação Objetos pode haver mudança de resultado, pois em Orientação a Objetos o estado de um objeto pode mudar.
+
+⦁	O primeiro conceito que vamos aprender é Variáveis de Função. Com ela podemos chamar uma função existente através da variável:
+
+Aqui uma váriavel vai guardar a referência de uma função e através dela poderemos executar a função.
+
+Se vamos guardar na variável a referência de uma função, teremos que criar a função! A assinatura da função tem que ser igual a assinatura do tipo função da variável, por exemplo:
+
+	val minhaFuncao: () -> Unit
+
+A variável minhaFuncao terá a referência de uma função que não recebe parâmetros, pois o "()" está vazio e seu retorno será Unit, pois após "->" definimos o retorno da função. Logo, podemos criar a função
+
+	fun teste(){
+	}
+
+E depois disso inicializar a variável, pois toda variável tem que ser inicializada no Kotlin! Ficando assim:
+
+	val minhaFuncao: () -> Unit = ::teste
+
+Note que usamos o "::" pois queremos apenas a referência dessa função, não queremos a sua execução com seu retorno e é por isso também que não usamos o "()" após o nome da função.
+
+Para executar a função através da minha variável:
+
+	minhaFuncao()
+
+⦁	Podemos também fazer a implementação anterior utilizando uma classe (Objeto), ou seja, uma classe qualquer irá implementar uma função (igual uma classe implementando uma interface). Daí a variável de função será inicializada com essa classe, vamos ter que usar o '()' para inicializar nesse caso, pois agora queremos a referencia de uma classe. Lembrando que a função a ser implementada pela classe tem que ter a mesma assinatura da variável (variável de função) que vai recebê-la. Quando uma classe implementa uma função ela ganha a obrigação de implementar o método invoke. O conteúdo de invoke é o que será chamado quando executarmos a variável de funçao. 
+
+Veja como ficou a variável de função sendo implementada por classe:
+
+	val minhaFuncaoClass:() -> Unit = Teste()
+
+Para o código citado funcionar, criamos a classe Teste, ficou assim:
+
+	class Teste : () -> Unit{ 
+		override fun invoke() { 
+		println("Executando a classe Teste e seu método 			invoke!") 
+		} 
+	}
+
+E para executar a variável de função:
+
+	println(minhaFuncaoClass())
+
+⦁	Ciando uma Variavel de Função Lambda: para isso vamos criar uma variável, seu tipo será de FUNÇÃO " () -> Unit", só que agora não vamos iniciá-la com a refernecia de uma função nem classe, já vamos iniciá-la com a execução, ficando assim:
+
+	val minhaFuncaoLambda: () -> Unit = { 
+		println("Executando meu lambda") 
+	}
+
+E para executar, fazemos:
+
+	minhaFuncaoLambda()
+
+
+⦁	Criando uma Variavel de Função, com função anonima: para isso vamos criar uma variável, seu tipo será FUNÇÃO "() -> Unit", só que agora vamos iniciá-la com 'fun() {}', é como se tivessemos criando uma função no mesmo instante e dando a essa variável a sua referencia. Note que fun () não tem nenhum parâmetro e dentro do '{}' só podemos retonar u Unit, pois o tipo da variável de função tem que ser igual a da função anonima (mesma assinatura). Ficou assim:
+
+	val minhaFuncaoAnonima: () -> Unit = fun (){
+    		println("Executando variável de função, com FUNÇÃO ANONIMA")
+	}
+
+Para executar:
+
+	minhaFuncaoAnonima()
+
+
+⦁	Obs: Não precisamos indicar o tipo de uma variável no Kotlin, pois ao inicializá-la o Kotlin faz isso para gente, logo o tipo de função ' () -> Unit ' pode ser omitido!
+
+
+
+
+

@@ -1,0 +1,22 @@
+Capítulo 04 - Conhecendo as Scope Functions
+Nesse capítulo aprendemos:
+Doc oficial: https://kotlinlang.org/docs/scope-functions.html#function-selection
+
+⦁	As funções de escopo já estão na biblioteca padrão do Kotlin, só temos que entendê-las e usá-las. São elas: let, run, with, apply, also;
+
+⦁	Quando chamamos uma função lambda ou as funções de escopo nós ganhamos um escopo temporário para fazer alguma coisa (é o que fica dentro do '{}'), e precisamos mandar para esse escopo um objeto de contexto. As diferenças das funções mencionadas anteriormente são: o que vamos ter de objeto de contexto acessível (pode ser o 'this' ou 'it') e o retorno da função;
+
+⦁	Primeiro vamos abordar a diferença: o que vamos ter de objeto de contexto acessível (pode ser o 'this' ou 'it') :
+	Quando falamos de 'it', estamos falando de um objeto de contexto que vai ser acessível como um argumento do lambda.
+	Quando falamos do 'this', estamos falando que esse é um receptor ou receiver do lambda.
+	Na prática, qual é a diferença? Que quando estamos usando um receiver a palavra 'this' pode ser omitida, já com argumento do lambda temos que usar o 'it' ou um apelido.
+	Funções do tipo receiver: run, with, apply.
+	Funções do tipo argumento do lambda: let, also.
+	Quando queremos chamar as properties/membros de um objeto é mais comum usarmos as funções receiver
+
+⦁	Retorno da função de escopo: vamos ter dois tipos de retornos em uma função de escopo. Teremos o retorno da Lambda e o retorno do Objeto de Contexto.
+
+As funções: apply e also vão retornar o contexto de objeto
+As funções: let, run e with vão retornar o resultado da lambda
+
+Há mais detalhes no arquivo: scopeFunctionRetornoTeoria

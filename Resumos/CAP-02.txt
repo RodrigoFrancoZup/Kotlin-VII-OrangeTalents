@@ -1,0 +1,114 @@
+Capítulo 02 - Tipo função com parâmetros e retorno
+Nesse capítulo aprendemos:
+
+
+⦁	No capitulo 1 aprendemos a inicialização de uma váriavel de função, agora vamos usar a várivel de função, sendo que a função terá parâmetros e retorno;
+
+⦁	Ao colocar parâmetro na função que a variável irá guardar, tanto a assinatura da variável quanto a função terão que ter a mesma assinatura, veja:
+
+	val minhaFuncao: (Int, Int) -> Int = ::soma
+
+A variável minhaFuncao agora será do tipo função (função que recebe 2 inteiros como parâmetro e retorna um inteiro). Essa variável será a referencia da função soma (::soma), para isso funcionar a função soma tem que também receber 2 inteiros como parâmetro e retorna um inteiro, veja:
+
+	fun soma(a: Int, b: Int): Int { 
+		return a + b 
+	}
+
+Para executar a função através da variável:
+
+	val resultado = minhaFuncao(5,5)
+
+
+⦁	O mesmo ocorre com a variável de função implementada por classe/objeto. A assinatura da variável ficou:
+
+	val minhaFuncaoClass: (Int, Int) -> Int = Soma()
+
+Só que nesse caso não podemos passar os parmetros para a clase Soma(), vamos passar somente na execução, lembre-se que quando utilizamos implementação via classe a função será executada pelo método invoke da classe. 
+
+Já na assinatura da função que a classe implementa, também terá que ter a mesma assinatura da variável de função, e consequentemente o método invoke() ganhara atraibutos e retorno, veja:
+
+	class Soma : (Int, Int) -> Int { 
+		override fun invoke(a: Int, b: Int): Int = a + b 
+	}
+
+Aqui colocamos a implementação "inline", mas podeira ser entre as '{}', veja esse exmplo:
+
+	class Soma : (Int, Int) -> Int { 
+		override fun invoke(a: Int, b: Int): Int {
+			return a+b
+		}
+	}
+
+Para executar a função através da variável:
+
+	val resultado = minhaFuncaoClass(10,10)
+
+⦁	A mesma coisa ocorrerá com as funções lambdas e funções anonimas, vao ganhar parâmetros e retorno.  A assinatura da variável de função sempre term que bater com a assinatura da função anonima ou com a função lambda!
+
+Obs em Lambda e Função anonima: Caso a variável de função tenha em sua assiantura por exemplo 3 parametros, mas na implementação vamos usar apenas 2, podemos colocar '_' no lugar do apelido desse parâmetro, assim não o usaremos e a implementação será possível!
+
+Obs2: Caso optemos por omitir o tipo de função da variável de função, ou seja, deixar sem ' () -> Unit ' os parâmetros das funções devem ser tipados, pois assim o Kotlin conseguirá atribuir o valor para a variavel de função 
+
+Obs3: Na função lambda temos que colocar o 'return'
+
+⦁	Vimos que o Lambda no seu bloco de implementação a última linha é sempre o retorno, como poderíamos fazer uma verficiação (if) e para cada situação devolver um valor? Vamos ver como fazer isso.
+
+A princípio poderíamos tentar usar o 'Return', mas o 'Return' dentro de um Lambda nos leva para o função superior, no caso a função que nos invocou, no nosso exemplo o return nos levaria para a função main() e tentaria pegar seu retorno que é Unit. Para resolver isso vamos criar um label para retorno do lambda com qualquer nome e depois utilizar o return com esse label. Veja como vai ficar:
+
+
+    //Vamos criar agora uma "variável de função" através do Lambda!
+    //A função Lambda agora poderá ter mais de uma linha de retorno!
+    //Vamos criar uma função lambda que calcula bonificacao de acordo com o salario passado!
+    //Quando a função recebe apenas um parâmetro o Kotlin já dá o apelido IT para ele, logo não precisamos dar um apelido
+    //Aqui vamos aplicar uma boa pratica, apelidos que ajudam o  programador,
+    // pois quem chamar essa função vai passar um parametro Double, mas ele representa o que? Nesse caso salario
+    //Agora quem chamar a função terá a dica que tem que enviar salario
+    //Aqui não podemos usar o retur, pois esse nós leva para a função superior (função que chamou essa, nesse caso o main)
+    //Para termos mais de uma opção de retorno temos que dar um label para retorno, vou chamar de label nesse exemplo 'label@'
+
+    val calculaBonificacao: (salario: Double) -> Double = label@{
+        if(it > 1000.0){
+            return@label it + 100
+        }
+        return@label it+200
+    }
+
+    println(calculaBonificacao(100.0))
+
+
+Boa pratica, não utilizar o it:
+
+//Código igual o anterior
+//Aqui só paramos de usar o It e demos um apelido salario para a implementação da lambda
+// pois veremos que uma função pode chamar outra e podemos ter vários it's e gerar confusao
+
+val calculaBonificacao: (salario: Double) -> Double = label@{ salario ->
+    if(salario > 1000.0){
+        return@label salario + 100
+    }
+    return@label salario+200
+}
+
+println(calculaBonificacao(100.0))
+
+
+⦁	Mesmo código anterior, só que utilizando função anonima:
+
+
+//Executando a mesma coisa com função anonima:
+val calculaBonificacaoAnonima: (Double) -> Double = fun(salario) : Double{
+    if(salario > 1000.0){
+        return salario + 100
+    }else{
+        return salario + 200
+    }
+}
+
+val resultado = calculaBonificacaoAnonima(1000.0)
+println(resultado)
+
+
+
+
+
+

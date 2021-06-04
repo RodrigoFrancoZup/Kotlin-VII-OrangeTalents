@@ -1,0 +1,174 @@
+Capítulo 03 - Explorando as Higher-Order Functions
+Nesse capítulo aprendemos:
+
+⦁	Nos capitulos anteriores aprendemos a criar uma variavel de função, ou seja, o tipo da variavel era uma função e representamos isso através do: " () -> Unit" onde passamos os parâmetros entre os "()" e o tipo de retorno vem depois do " -> ";
+
+⦁	Tendo conhecimento que existe o tipo função, agora vamos aprender que um parâmetro ou o retorno de uma função pode ser do tipo função e quando isso ocorre (função que recebe outra função, ou então, funçao que retorna outra função) estamos fazendo uso do HOF - Higher Order Function. Chegamos usar isso antes mesmo de conhecer, que é o caso da função LET;
+
+⦁	Assunto um pouco mais complexo, foi feito alguns exemplos e explicacoes no arquivo teoriaHOF sobre a teoria do HOF:
+
+ /*
+ Nos capitulos anteriores aprendemos a criar uma variavel de função, ou seja, o tipo da variavel era uma função e
+ representamos isso através do: " () -> Unit" onde passamos os parâmetros entre os "()" e
+ o tipo de retorno vem depois do " -> ";
+
+ Tendo conhecimento que existe o tipo função, agora vamos aprender que um parâmetro ou o retorno de uma função
+ pode ser do tipo função e quando isso ocorre
+ (função que recebe outra função, ou então, funçao que retorna outra função) estamos fazendo uso do HOF - Higher Order Function.
+ Chegamos usar isso antes mesmo de conhecer, que é o caso da função LET;
+
+  */
+
+ //O let não pode ser chamado do nada, precisamos de um objeto e através do objeto chamamos let
+ //Isso ocorre porque a assinatura desse método usa a tecnica de função extensão "Objeto.Funcao" e
+ // nesse caso é uma extensão de Objeto de qualquer tipo (Generic)
+ //Na assinatura do LET foi usado generic e não o tipo any, sabe o motivo? Com generic podemos garantir que
+ // o mesmo tipo que chamou será o tipo enviado para dentro do bloco de implementação sem CAST, com any poderia ser qualquer tipo!
+
+
+/* Exemplo de chamadas do let - note que para dento do bloco vai o it:
+   E o it é sempre do mesmo tipo do objeto que chamou! Graças o uso do generic que foi explicado anteriormente.
+
+ "".let { it  }
+ 1.let { it }
+ Endereco().let { it }
+
+ */
+
+ /*
+ Entao agora sabemos que o LET é uma função que recebe outra função como parâmetro.
+ Só que a função passada como parâmetro obrigatóriamente tem que ter um parâmetro do mesmo tipo do objeto que está chamando o let
+ Vou exemplificar no código a seguir
+  */
+
+ //Através de um objeto String vou chamar o let
+ //Sabeos que  let exige um parametro do tipo funçao
+ //Se quem ta chamando o let é String o parâmetro da função a ser passada como parametro do let, também deve ser de string
+ //Vai ficar assim:
+
+ //Vou criar uma função que recebe como parametro uma string
+ fun funcaoQueRecebeString(string: String){
+
+ }
+
+ //Agora vou chamar o let de modo alternativo:
+ "".let(::funcaoQueRecebeString)
+
+ //Mas o mais comum/usual seria chamar assim:
+ //Quando o parametro de uma função é outra função não somos obrigados a usar '()'
+ //Se tivesse mais parametros teriamos que passar dentro do '()'
+ //E se tivesse mai parametros, mas na assinatura o tipo função fosse o ultimo poderiamos passar: '(){}'
+ "".let {  }
+
+⦁	Assunto um pouco mais complexo, foi feito alguns exemplos e explicacoes de como aplicar o HOF no arquivo aplicandoHOF:
+
+    //Aplicando o HOF
+
+    //Quero deixar o Logradouro de um endereço em maiusculo, sem o HOF ficaria:
+    val endereco = Endereco(logradouro = "Rua Mariana", numero = 3185)
+    val enderecoMaiusculo = endereco.logradouro.toUpperCase()
+    println(enderecoMaiusculo)
+
+    //Com HOF quero deixar o Logradouro de um endereço em maiusculo:
+    //O retorno do LET é generico, vamos retorar uma string com texto em maiusculo
+    val enderecoMaiusculoString = Endereco(logradouro = "Rua Miguel", numero = 1)
+        .let {
+        it.logradouro.toUpperCase()
+    }
+    println(enderecoMaiusculoString)
+
+    //O instrutor recomenda usarmos apelidos para os parâmetros, então o mesmo condigo anterior vai ficar:
+    val enderecoMaiusculoString2 = Endereco(logradouro = "Rua Miguel", numero = 1)
+        .let { endereco ->
+            endereco.logradouro.toUpperCase()
+        }
+    println(enderecoMaiusculoString2)
+
+
+    //Como o retorno é generic, podemos fazer qualquer tipo de retorno e podemos ir chamando outros let
+    Endereco(logradouro = "Rua São João", numero = 753)
+        .let { endereco ->
+            endereco.logradouro.toUpperCase()
+    }.let { endereco->
+        println(endereco)
+    }
+
+    //O exemplo anterior, (let com println) pode ser ainda mais simplificado:
+    Endereco(logradouro = "Rua São João", numero = 753)
+        .let { endereco ->
+            endereco.logradouro.toUpperCase()
+        }.let (::println)
+
+
+    //Outro exemplo de uso do HOF é com as funções FILTER, elas precisam receber uma função como parâmetro
+    //Vamos Criar uma lista de endereços e depois
+    //Aplicar um filtro, vamos pegar apenas enderecos com complemento (temos 2),
+    //Por fim pegar a nova lista com o filtro aplicado
+    val enderecoComComplemento = listOf(Endereco(complemento = "Casa"), Endereco(complemento = "Trabalho"), Endereco())
+        .filter {
+        endereco ->  endereco.complemento.isNotEmpty()
+    }
+    println(enderecoComComplemento)
+    
+}
+
+⦁	Implementando o nosso proprio HOF:
+Assunto um pouco mais complexo, foi feito alguns exemplos e explicacoes de como criar o nosso HOF no arquivo criandoPrimeiroHOF. Será necessário ver a classe SistemaInterno também.
+
+    //Criar nosso primeiro código utilizando HOF
+
+    //Aqui vou chamar a função soma, e um do seus parâmetros e outra função!
+    soma(1, 5, {
+        println(it)
+    })
+
+    //Exemplo 2, usando a classe SistemaInterno
+
+    //Criando um objeto que implementa interface autenticavel
+    val autenticavel = object : Autenticavel {
+        val  senha = 1234
+        override fun autentica(senha: Int) = this.senha == senha
+    }
+
+    //Vou chamar a função entra do objeto SistemaInterno,
+    // a função entra pede uma função como parâmetro,
+    // e por isso mandei uma função lambda, que é o  '{}' - dei um label de autenticado para ele,
+    // lá no metodo entra, só será executado a função que mandei, se a pessoa se autenticar!
+    SistemaInterno().entra(autenticavel, 1234, autenticado ={
+        println("Realizar pagamento!")
+    })
+
+}
+
+//Essa é a declaração da função soma, note que um do seus parametros é uma função
+//O código que chamar essa função, ao utilizar o 'it' ou 'apelido para o it' só terá o restulado de fato,
+// devido a linha que faz 'resultado(a+b)', pois é essa linha que executa a função!
+fun soma(a:Int, b: Int, resultado: (Int) -> Unit){
+    println("Iniciando conta")
+    resultado(a+b)
+    println("Finalizando conta")
+}
+
+Na classe Sistema Interno:
+
+class SistemaInterno {
+
+    //Essa função ganhou o parametro autenticado,
+    //Esse parametro é do tipo função. Função que não recebe parâmetros e não retorna nada.
+    //Para esse código não quebrar onde ele já foi chamado, vamos deixar um valor padrao, no caso
+    // uma expressão lambda que não faz nada '{}'
+    //Vamos testar isso na classe criandoPrimeiroHOF
+    fun entra(admin: Autenticavel, senha: Int, autenticado: () -> Unit = {}){
+        if(admin.autentica(senha)){
+            println("Bem vindo ao Bytebank")
+            autenticado()
+        } else {
+            println("Falha na autenticação")
+        }
+    }
+
+}
+
+
+
+

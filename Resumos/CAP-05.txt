@@ -1,0 +1,6 @@
+Capítulo 05 - Implementando HOF com Receivers
+Nesse capítulo aprendemos:
+
+⦁	Como já utilizamos mais vezes o let{}, nesse capítulo vamos criar exemplos usando o with{}, run{}, e por fim criar uma funçao de escopo com receiver. No repositório as classes criadas para isso foram: testaRun, TestaWith e criandoHOFComReciver
+
+⦁	Há um arquivo chamado ResumoRodrigo que haverá uma explicação resumida sobre o que consegui entender nesse curso!
