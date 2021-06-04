@@ -1,4 +1,4 @@
-package br.com.alura.bytebank
+package br.com.alura.bytebank.teste
 
 import br.com.alura.bytebank.modelo.Autenticavel
 import br.com.alura.bytebank.modelo.SistemaInterno
